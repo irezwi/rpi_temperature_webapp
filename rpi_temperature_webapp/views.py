@@ -10,9 +10,8 @@ from rpi_temperature_webapp.extras.TemperatureChartData import TemperatureChartD
 
 class HomeView(View):
     def get(self, request, *args, **kwargs):
-        warsaw_timezone = pytz.timezone('Europe/Warsaw')
-        one_hour_ago = datetime.now(warsaw_timezone) - timedelta(hours=1)
-        now = datetime.now(warsaw_timezone)
+        one_hour_ago = make_aware(datetime.now() - timedelta(hours=1))
+        now = make_aware(datetime.now())
 
         last_hour_chart_data = TemperatureChartData()
         last_hour_chart_data.fill_with_data(one_hour_ago, now)
