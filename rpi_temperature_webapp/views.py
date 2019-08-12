@@ -1,8 +1,6 @@
-from datetime import datetime, timedelta
-import pytz
+from datetime import timedelta
 
 from django.shortcuts import render
-from django.utils.timezone import make_aware
 from django.utils import timezone
 from django.views.generic import View
 
@@ -17,5 +15,4 @@ class HomeView(View):
         last_hour_chart_data = TemperatureChartData()
         last_hour_chart_data.fill_with_data(one_hour_ago, now)
 
-        return render(request, 'charts.html', {"lastHourChartData": last_hour_chart_data,
-                                               "startDate": str(one_hour_ago)})
+        return render(request, 'charts.html', {"lastHourChartData": last_hour_chart_data})
