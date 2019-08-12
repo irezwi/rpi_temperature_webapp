@@ -37,18 +37,26 @@
 </nav>
 <div class="container mt-2">
     <div class="row justify-content-center">
-        <div class="col-xl-6 col-md-8 mb-4">
+        <div class="col-xl-6 col-md-6 mb-4">
           <div class="card border-0 shadow">
             <div class="card-body text-center">
-              <h5 class="card-title mb-0">Last hour</h5>
+              <h3 class="card-title mb-0">Last hour</h3>
             </div>
-            <canvas id="myChart"></canvas>
+            <canvas id="lastHourChart"></canvas>
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 mb-4">
+          <div class="card border-0 shadow">
+            <div class="card-body text-center">
+              <h3 class="card-title mb-0">Last day</h3>
+            </div>
+            <canvas id="lastDayChart"></canvas>
           </div>
         </div>
     </div>
 </div>
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('lastHourChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -74,10 +82,51 @@
                         suggestedMax: 50
                     }
                 }]
+            },
+            elements: {
+                point: {
+                    radius: 2
+                }
             }
         }
     });
+</script>
 
+<script>
+    var ctx = document.getElementById('lastDayChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ lastDayChartData.labels|safe }},
+            datasets: [{
+                label: 'Temperature',
+                data: {{ lastDayChartData.values }},
+                backgroundColor: [
+                    'rgba(2,111,255,0.2)',
+                ],
+                borderColor: [
+                    'rgb(2,76,193)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false,
+                        suggestedMin: 25,
+                        suggestedMax: 50
+                    }
+                }]
+            },
+            elements: {
+                point: {
+                    radius: 2
+                }
+            }
+        }
+    });
 </script>
 
 <!-- Optional JavaScript -->
