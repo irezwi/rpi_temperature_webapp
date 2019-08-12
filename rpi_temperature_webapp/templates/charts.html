@@ -13,11 +13,37 @@
     <title>RPi Charts</title>
 </head>
 <body>
-<div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top mb-4">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container mt-2">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2 style="text-align: center;">Last 1h</h2>
+        <div class="col-xl-6 col-md-8 mb-4">
+          <div class="card border-0 shadow">
+            <div class="card-body text-center">
+              <h5 class="card-title mb-0">Last hour</h5>
+            </div>
             <canvas id="myChart"></canvas>
+          </div>
         </div>
     </div>
 </div>
@@ -26,10 +52,10 @@
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: {{ chartLabels|safe }},
+            labels: {{ lastHourChartData.labels|safe }},
             datasets: [{
                 label: 'Temperature',
-                data: {{ chartData }},
+                data: {{ lastHourChartData.values }},
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                 ],
@@ -65,5 +91,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+
 </body>
 </html>
