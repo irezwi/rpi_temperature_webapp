@@ -5,4 +5,4 @@ from .models import Measurement
 class MeasurementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Measurement
-        fields = '__all__'
+        fields = ('time', 'temperature')
