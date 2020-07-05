@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from .models import Measurements
+from .models import Measurement
 
-admin.site.register(Measurements)
+admin.site.register(Measurement)
