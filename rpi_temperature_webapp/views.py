@@ -4,8 +4,11 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import View
+from rest_framework import viewsets
 
 from rpi_temperature_webapp.extras.TemperatureChartData import TemperatureChartData
+from .models import Measurement
+from .serializers import MeasurementSerializer
 
 
 class HomeView(View):
@@ -22,6 +25,11 @@ class HomeView(View):
 
         return render(request, 'charts.html', {"lastHourChartData": last_hour_chart_data,
                                                "lastDayChartData": last_day_chart_data})
+
+
+class MeasurementApiView(viewsets.ModelViewSet):
+    queryset = Measurement.objects.all().order_by('time')
+    serializer_class = MeasurementSerializer
 
 
 def about_view(request):

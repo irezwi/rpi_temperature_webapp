@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rpi_temperature_webapp'
+    'rpi_temperature_webapp',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
