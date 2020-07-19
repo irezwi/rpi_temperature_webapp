@@ -9,7 +9,6 @@ from django.db import models
 
 
 class Measurement(models.Model):
-    id = models.IntegerField(primary_key=True)
     temperature = models.FloatField(blank=True, null=True)
     time = models.DateTimeField(blank=True, null=True)
 
