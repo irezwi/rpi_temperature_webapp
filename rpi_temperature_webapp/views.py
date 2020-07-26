@@ -1,6 +1,7 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
+from statistics import mean
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import View
@@ -12,19 +13,27 @@ from .serializers import MeasurementSerializer
 
 
 class HomeView(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        last_day_data = self._get_last_day_data()
+        last_day_data_scaled = last_day_data.adjust_values_count(100, 10)
+        last_hour_data = self._get_last_hour_data()
+        return render(request, 'charts.html', {"lastHourChartData": last_hour_data,
+                                               "lastDayChartData": last_day_data_scaled,
+                                               "lastHourAverageTemperature": mean(last_hour_data.values),
+                                               "lastDayAverageTemperature": mean(last_day_data.values)})
+
+    def _get_last_hour_data(self) -> TemperatureChartData:
         one_hour_ago = timezone.localtime(timezone.now() - timedelta(hours=1))
+        return self._get_data_by_date(one_hour_ago)
+
+    def _get_last_day_data(self) -> TemperatureChartData:
         one_day_ago = timezone.localtime(timezone.now() - timedelta(days=1))
+        return self._get_data_by_date(one_day_ago)
+
+    @staticmethod
+    def _get_data_by_date(date: datetime) -> TemperatureChartData:
         now = timezone.localtime()
-
-        last_hour_chart_data = TemperatureChartData()
-        last_hour_chart_data.fill_with_data(one_hour_ago, now)
-
-        last_day_chart_data = TemperatureChartData()
-        last_day_chart_data.fill_with_data(one_day_ago, now)
-
-        return render(request, 'charts.html', {"lastHourChartData": last_hour_chart_data,
-                                               "lastDayChartData": last_day_chart_data})
+        return TemperatureChartData(date, now)
 
 
 class MeasurementApiView(viewsets.ModelViewSet):
@@ -32,5 +41,5 @@ class MeasurementApiView(viewsets.ModelViewSet):
     serializer_class = MeasurementSerializer
 
 
-def about_view(request):
+def about_view(request: HttpRequest) -> HttpResponse:
     return HttpResponse("Nothing :(")

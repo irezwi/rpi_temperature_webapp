@@ -41,6 +41,7 @@
           <div class="card border-0 shadow">
             <div class="card-body text-center">
               <h3 class="card-title mb-0">Last hour</h3>
+                <p>Avg: {{ lastHourAverageTemperature|floatformat:2 }} &deg;{{ lastHourChartData.units }}</p>
             </div>
             <canvas id="lastHourChart"></canvas>
           </div>
@@ -49,6 +50,7 @@
           <div class="card border-0 shadow">
             <div class="card-body text-center">
               <h3 class="card-title mb-0">Last day</h3>
+                <p>Avg: {{ lastDayAverageTemperature|floatformat:2 }} &deg;{{ lastDayChartData.units }}</p>
             </div>
             <canvas id="lastDayChart"></canvas>
           </div>
