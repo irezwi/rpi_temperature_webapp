@@ -1,3 +1,4 @@
+from copy import copy
 from datetime import timedelta, datetime
 from statistics import mean
 
@@ -15,7 +16,8 @@ from .serializers import MeasurementSerializer
 class HomeView(View):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         last_day_data = self._get_last_day_data()
-        last_day_data_scaled = last_day_data.adjust_values_count(100, 10)
+        last_day_data_scaled = copy(last_day_data)
+        last_day_data_scaled.adjust_values_count(100, 10)
         last_hour_data = self._get_last_hour_data()
         return render(request, 'charts.html', {"lastHourChartData": last_hour_data,
                                                "lastDayChartData": last_day_data_scaled,
