@@ -1,0 +1,9 @@
+<div class="col-xl-6 col-md-6 mb-4">
+    <div class="card border-0 shadow">
+        <div class="card-body text-center">
+            <h3 class="card-title mb-0">{{ title }}</h3>
+            <p>Avg: {{ average_temperature|floatformat:2 }} &deg;{{ chart_data.units }}</p>
+        </div>
+        <canvas id={{ id }}></canvas>
+    </div>
+</div>

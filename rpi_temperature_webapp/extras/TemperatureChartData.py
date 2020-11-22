@@ -17,10 +17,11 @@ class TemperatureChartData:
             self.labels.append(measurement.time.strftime("%H:%M"))
             self.values.append(measurement.temperature)
 
-    def adjust_values_count(self, max_count: int, step: int) -> None:
+    def adjust_values_count(self, max_count: int, step: int):
         if len(self.values) > max_count:
             self.labels = self.labels[::step]
             self.values = self.values[::step]
+        return self
 
     def scale_temperatures_to_K(self) -> None:
         if self.units == "C":

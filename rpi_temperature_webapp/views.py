@@ -15,14 +15,18 @@ from .serializers import MeasurementSerializer
 
 class HomeView(View):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        last_day_data = self._get_last_day_data()
-        last_day_data_scaled = copy(last_day_data)
-        last_day_data_scaled.adjust_values_count(100, 10)
+        last_day_data = self._get_last_day_data().adjust_values_count(100, 10)
         last_hour_data = self._get_last_hour_data()
-        return render(request, 'charts.html', {"lastHourChartData": last_hour_data,
-                                               "lastDayChartData": last_day_data_scaled,
-                                               "lastHourAverageTemperature": mean(last_hour_data.values),
-                                               "lastDayAverageTemperature": mean(last_day_data.values)})
+        return render(
+            request,
+            'charts.html',
+            {
+                "lastHourChartData": last_hour_data,
+                "lastDayChartData": last_day_data,
+                "lastHourAverageTemperature": mean(last_hour_data.values),
+                "lastDayAverageTemperature": mean(last_day_data.values)
+            }
+        )
 
     def _get_last_hour_data(self) -> TemperatureChartData:
         one_hour_ago = timezone.localtime(timezone.now() - timedelta(hours=1))
@@ -44,4 +48,4 @@ class MeasurementApiView(viewsets.ModelViewSet):
 
 
 def about_view(request: HttpRequest) -> HttpResponse:
-    return HttpResponse("Nothing :(")
+    return render(request, "about.html")
